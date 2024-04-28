@@ -10,14 +10,14 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject private var firebaseManager: FirebaseManager
-    @State private var isShowingAddCategory = false
     @State private var selectedCategory: Category?
+    @State private var isShowingAddCategory = false
     
     var body: some View {
         NavigationStack {
             List {
                 ForEach(firebaseManager.categories, id: \.id) { category in
-             
+                    let tasksCount = category.tasksCount
                     HStack {
                         Spacer()
                         Menu {
@@ -31,11 +31,11 @@ struct ContentView: View {
                                 Task {
                                     do {
                                         try await firebaseManager.deleteCategory(category)
-                                        try? await firebaseManager.fetchCategories {}
+                                        try? await firebaseManager.fetchCategories()
                                     } catch {
-                                        // Handle errors gracefully
                                         print("Error deleting category: \(error)")
                                     }
+                                    
                                 }
                             }.foregroundStyle(.red)
                         } label: {
@@ -43,10 +43,9 @@ struct ContentView: View {
                                 .foregroundStyle(.blue)
                         }
                         
-                        NavigationLink(destination: TaskView(category: category)) {
+                        NavigationLink(destination: Tasks(category: category)) {
                             VStack(alignment: .leading) {
-                                Text("\(category.name) (\(category.items.count))")
-                                
+                                Text("\(category.name) (\(tasksCount))")
                                     .frame(alignment: .leading)
                             }
                         }
@@ -74,32 +73,23 @@ struct ContentView: View {
             .onAppear {
                 Task {
                     do {
-                        try await firebaseManager.fetchCategories {
-                            print("Category job completed!")
-                            firebaseManager.categories.forEach { c in
-                                
-                                print(c)
-                            }
-
-                        }
+                        try await firebaseManager.fetchCategories()
                     } catch {
                         print("Error fetching categories: \(error)")
                     }
                 }
-
             }
         }
     }
     
     // Function to calculate total tasks count
-//    func totalTasksCount() -> Int {
-//        var total = 0
-//        for category in firebaseManager.categories {
-//            print("\(category.name) - (\(category.items.count))")
-//            total += category.items.count
-//        }
-//        return total
-//    }
+    func totalTasksCount() -> Int {
+        var total = 0
+        for category in firebaseManager.categories {
+            total += category.tasksCount
+        }
+        return total
+    }
 }
 
 

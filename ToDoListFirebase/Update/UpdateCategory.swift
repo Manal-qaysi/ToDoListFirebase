@@ -12,7 +12,6 @@ struct updateCategory: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var firebaseManager: FirebaseManager
     @State private var categoryName = ""
-    @State var tasksCount : Int = 0
     var category: Category
     var body: some View {
         NavigationStack {
@@ -23,10 +22,12 @@ struct updateCategory: View {
             }
                 Section(){
                     Button(action: {
-                        let category = Category(id: category.id,name: categoryName)
+                        let category = Category(id: category.id,name: categoryName, tasksCount: 0)
                         Task{
                             try await firebaseManager.createCategory(category)
-       
+                            
+                            
+                            
                         }
                         dismiss()
                     }) {
@@ -55,7 +56,7 @@ struct updateCategory: View {
 
 
 #Preview {
-    updateCategory(category: Category(id: "", name: ""))
+    updateCategory(category: Category(id: "", name: "", tasksCount: 0))
 }
 
 

@@ -11,7 +11,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 struct Item: Codable , Identifiable{
-    @DocumentID var id: String? = ""
+    var id: String
     var title : String
     var info : String
     var dueDate: Date
@@ -19,9 +19,9 @@ struct Item: Codable , Identifiable{
 }
 
 struct Category: Codable, Identifiable {
-    @DocumentID var id: String? = ""
+    var id: String
     var name: String
-    var items: [Item] = []
+    var tasksCount: Int
     
 }
 class FirebaseManager: NSObject , ObservableObject {
@@ -36,9 +36,8 @@ class FirebaseManager: NSObject , ObservableObject {
    
     func createItem(_ item: Item, _ category: Category) async throws {
         do {
-            guard let categoryId = category.id, let itemId = item.id else { return }
-            print("Attempting to create item in Firestore at category: \(categoryId), item: \(itemId)")
-            try firestore.collection("category").document(categoryId).collection("items").document(itemId).setData(from: item)
+            print("Attempting to create item in Firestore at category: \(category.id), item: \(item.id)")
+            try firestore.collection("category").document(category.id).collection("items").document(item.id).setData(from: item)
             print("Item created in category.")
         } catch {
             print("Failed to create item: \(error)")
@@ -49,9 +48,8 @@ class FirebaseManager: NSObject , ObservableObject {
 
     
     func createCategory(_ category: Category) async throws {
-        guard let categoryId = category.id else { return }
         do{
-            try  firestore.collection("category").document(categoryId).setData(from: category)
+            try  firestore.collection("category").document(category.id).setData(from: category)
             print("done")
         }
         catch{
@@ -59,59 +57,41 @@ class FirebaseManager: NSObject , ObservableObject {
             
         }
     }
-    /*
-    func fetchItems(_ category: Category) async throws {
-        guard let categoryId = category.id else { return }
-        let querySnapshot = try await firestore.collection("category").document(categoryId).collection("items").getDocuments()
-        let items = querySnapshot.documents.compactMap({try? $0.data(as: Item.self)})
     
+    func fetchItems(_ category: Category) async throws {
+        let querySnapshot = try await firestore.collection("category").document(category.id).collection("items").getDocuments()
+        let items = querySnapshot.documents.compactMap({try? $0.data(as: Item.self)})
         DispatchQueue.main.sync {
             self.items = items
-
        }
     }
-    */
-    func getTasks(completion: @escaping ()->Void){
-
-    }
-    func fetchCategories(_ completion: ()->Void?) async throws {
+    
+    func fetchCategories() async throws {
         let querySnapshot = try await firestore.collection("category").getDocuments()
         let categories = querySnapshot.documents.compactMap({try? $0.data(as: Category.self)})
         DispatchQueue.main.sync {
             self.categories = categories
-            completion()
        }
     }
    
     func deleteItem(_ item: Item, _ category: Category) async throws {
-        guard let categoryId = category.id, let itemId = item.id else { return }
-        let documentRef = firestore.collection("category").document(categoryId).collection("items").document(itemId)
+        let documentRef = firestore.collection("category").document(category.id).collection("items").document(item.id)
         try await documentRef.delete()
+        
     }
     
     func deleteCategory(_ category: Category) async throws {
-        guard let categoryId = category.id else { return }
-        let documentRef = firestore.collection("category").document(categoryId)
+        let documentRef = firestore.collection("category").document(category.id)
            try await documentRef.delete()
     }
 
-    func updateCount(_ category: Category, completion: (Error?)->Void) {
-        guard let categoryId = category.id else { return }
-        let docRef = firestore.collection("category").document(categoryId)
-        
-        docRef.setData(["taskCouunt": 0], merge: true) { error in
-            guard error == nil else { return }
-            
-        }
-    }
    
     func updateItem(_ item: Item, _ category: Category){
-        guard let categoryId = category.id, let itemId = item.id else { return }
         do {
             try firestore.collection("category")
-                              .document(categoryId)
+                              .document(category.id)
                               .collection("items")
-                              .document(itemId)
+                              .document(item.id)
                               .setData(from: item)
         } catch {
             print(error.localizedDescription)
@@ -119,9 +99,8 @@ class FirebaseManager: NSObject , ObservableObject {
     }
    
     func updateCategory( _ category: Category){
-        guard let categoryId = category.id else { return }
         do {
-            try  firestore.collection("category").document(categoryId).setData(from: category)
+            try  firestore.collection("category").document(category.id).setData(from: category)
         } catch {
             print(error.localizedDescription)
         }

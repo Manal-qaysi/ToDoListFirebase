@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TaskView: View {
+struct Tasks: View {
     @EnvironmentObject private var firebaseManager: FirebaseManager
     @State var isShowingAddItemView: Bool = false
     @State var tasksCount : Int = 0
@@ -24,7 +24,7 @@ struct TaskView: View {
                             VStack {
                                 Text(item.title)
                                 Text(item.info)
-                                Text(item.id ?? "")
+                                Text(item.id)
                             }
                         }
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -32,6 +32,15 @@ struct TaskView: View {
                                 Task {
                                     try await firebaseManager.deleteItem(item,category)
                                     try? await firebaseManager.fetchItems(category)
+                                   
+                                        let cat = Category(id: category.id, name: category.name, tasksCount: (category.tasksCount - 1))
+                                        Task {
+                                            try await firebaseManager.createItem(item, category)
+                                            firebaseManager.updateCategory(cat)
+                                
+                                        }
+                                  
+                                       
                                 }
                             } label: {
                                 Label("Delete", systemImage: "trash")
@@ -65,7 +74,7 @@ struct TaskView: View {
             .navigationBarTitle("Categories", displayMode: .large)
             .onAppear {
                 Task {
-                    try await firebaseManager.fetchItems(category)
+                   try await firebaseManager.fetchItems(category)
                 }
             }
         }

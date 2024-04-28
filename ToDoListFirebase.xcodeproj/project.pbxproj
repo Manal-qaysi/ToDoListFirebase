@@ -16,7 +16,7 @@
 		880CF2AA2BDD320F00F25A57 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 880CF2A92BDD320F00F25A57 /* FirebaseFirestore */; };
 		880CF2AC2BDD320F00F25A57 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 880CF2AB2BDD320F00F25A57 /* FirebaseFirestoreSwift */; };
 		880CF2AE2BDD43C000F25A57 /* FireBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880CF2AD2BDD43BF00F25A57 /* FireBaseManager.swift */; };
-		880CF2B02BDD43E400F25A57 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880CF2AF2BDD43E400F25A57 /* TaskView.swift */; };
+		880CF2B02BDD43E400F25A57 /* Tasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880CF2AF2BDD43E400F25A57 /* Tasks.swift */; };
 		880CF2B22BDD43FF00F25A57 /* UpdateitemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880CF2B12BDD43FF00F25A57 /* UpdateitemView.swift */; };
 		880CF2B42BDD441B00F25A57 /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880CF2B32BDD441B00F25A57 /* AddItemView.swift */; };
 		880CF2B62BDD443500F25A57 /* AddCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880CF2B52BDD443500F25A57 /* AddCategory.swift */; };
@@ -47,7 +47,7 @@
 		880CF2802BDD2F7800F25A57 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		880CF2A32BDD2FAF00F25A57 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		880CF2AD2BDD43BF00F25A57 /* FireBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireBaseManager.swift; sourceTree = "<group>"; };
-		880CF2AF2BDD43E400F25A57 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
+		880CF2AF2BDD43E400F25A57 /* Tasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tasks.swift; sourceTree = "<group>"; };
 		880CF2B12BDD43FF00F25A57 /* UpdateitemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateitemView.swift; sourceTree = "<group>"; };
 		880CF2B32BDD441B00F25A57 /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
 		880CF2B52BDD443500F25A57 /* AddCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategory.swift; sourceTree = "<group>"; };
@@ -85,6 +85,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8800C3C02BDE63B500FA3A4B /* Update */ = {
+			isa = PBXGroup;
+			children = (
+				880CF2B72BDD445500F25A57 /* UpdateCategory.swift */,
+				880CF2B12BDD43FF00F25A57 /* UpdateitemView.swift */,
+			);
+			path = Update;
+			sourceTree = "<group>";
+		};
+		8800C3C12BDE63E100FA3A4B /* Add */ = {
+			isa = PBXGroup;
+			children = (
+				880CF2B52BDD443500F25A57 /* AddCategory.swift */,
+				880CF2B32BDD441B00F25A57 /* AddItemView.swift */,
+			);
+			path = Add;
+			sourceTree = "<group>";
+		};
 		880CF26D2BDD2F7600F25A57 = {
 			isa = PBXGroup;
 			children = (
@@ -98,14 +116,12 @@
 		880CF2782BDD2F7600F25A57 /* ToDoListFirebase */ = {
 			isa = PBXGroup;
 			children = (
+				8800C3C12BDE63E100FA3A4B /* Add */,
+				8800C3C02BDE63B500FA3A4B /* Update */,
 				880CF2792BDD2F7600F25A57 /* ToDoListFirebaseApp.swift */,
 				880CF2AD2BDD43BF00F25A57 /* FireBaseManager.swift */,
 				880CF27B2BDD2F7600F25A57 /* ContentView.swift */,
-				880CF2B32BDD441B00F25A57 /* AddItemView.swift */,
-				880CF2B52BDD443500F25A57 /* AddCategory.swift */,
-				880CF2B12BDD43FF00F25A57 /* UpdateitemView.swift */,
-				880CF2B72BDD445500F25A57 /* UpdateCategory.swift */,
-				880CF2AF2BDD43E400F25A57 /* TaskView.swift */,
+				880CF2AF2BDD43E400F25A57 /* Tasks.swift */,
 				880CF2A32BDD2FAF00F25A57 /* GoogleService-Info.plist */,
 				880CF27D2BDD2F7800F25A57 /* Assets.xcassets */,
 				880CF27F2BDD2F7800F25A57 /* Preview Content */,
@@ -267,7 +283,7 @@
 				880CF27A2BDD2F7600F25A57 /* ToDoListFirebaseApp.swift in Sources */,
 				880CF2B62BDD443500F25A57 /* AddCategory.swift in Sources */,
 				880CF2AE2BDD43C000F25A57 /* FireBaseManager.swift in Sources */,
-				880CF2B02BDD43E400F25A57 /* TaskView.swift in Sources */,
+				880CF2B02BDD43E400F25A57 /* Tasks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

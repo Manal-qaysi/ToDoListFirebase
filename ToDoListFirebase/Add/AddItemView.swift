@@ -33,8 +33,10 @@ struct AddItemView: View {
                     Button("Add Task") {
                         if !title.isEmpty && !info.isEmpty {
                             let item =  Item(id: UUID().uuidString, title: title, info: info, dueDate: dueDate)
+                            let cat = Category(id: category.id, name: category.name, tasksCount: (category.tasksCount + 1))
                             Task {
                                 try await firebaseManager.createItem(item, category)
+                                firebaseManager.updateCategory(cat)
                     
                             }
                         dismiss()
@@ -54,7 +56,7 @@ struct AddItemView: View {
 }
 
 #Preview {
-    AddItemView(category: Category(id: "", name: ""))
+    AddItemView(category: Category(id: "", name: "",tasksCount : 0))
         .environmentObject(FirebaseManager())
 }
 

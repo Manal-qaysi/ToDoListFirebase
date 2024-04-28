@@ -12,7 +12,7 @@ struct AddCategory: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var firebaseManager: FirebaseManager
     @State private var categoryName = ""
-    @State var tasksCount : Int = 0
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -21,10 +21,10 @@ struct AddCategory: View {
                     .padding()
                 Section(){
                     Button(action: {
-                        let cat = Category(id: UUID().uuidString,name: categoryName)
+                        let category = Category(id: UUID().uuidString,name: categoryName, tasksCount: 0)
                         Task{
-                            try await firebaseManager.createCategory(cat)
-                            try? await firebaseManager.fetchCategories {}
+                            try await firebaseManager.createCategory(category)
+                            try? await firebaseManager.fetchCategories()
                             
                             
                             
